@@ -1,0 +1,45 @@
+# df.shape
+# DataFrame의 전체 크기
+
+
+# df.isnull().sum()
+# 결측치의 합계 출력
+
+
+# df["컬럼이름"].value_counts()
+# -> 특정 컬럼의 값을 그룹화하여 세고 이를 출력함
+
+
+# df["컬럼이름"].describe()
+# 특정 컬럼 요약값 출력
+
+
+# df.describe(include = "object")
+# object 타입의 컬럼의 요약값 출력
+
+
+# df["컬럼이름"] = df["컬럼이름"].str.lower()
+# 컬럼에 있는 문자를 소문자로 변경하고, 이를 embark_lower 컬럼을 생성 한 뒤 추가함.
+
+
+# df["컬럼이름"].str.contains("A").sum()
+# 특정 컬럼 내에 A를 포함하는 행의 개수의 합 출력
+
+
+# df["child"] = df["age"] <= 15
+# "age"컬럼에 15 이하의 값을 False로 출력하고 15 초과의 값을 True로 출력. 그리고 이를 "child"라는 컬럼에 추가
+
+
+# print(df["컬럼A"] == 'C') & ~(df["컬럼B"] == 3)
+# 컬럼A에서 값이 "C"이면서, 컬럼B에서 값이 "3"인 행들을 True, False로 출력
+
+
+# df.fillna(0)
+# DataFrame의 결측값을 0으로 대체함.
+
+
+# df["컬럼"] = df["컬럼"].replace({True: 1, False: 0})
+# boolean 타입을 float 타입으로 바꾸기
+
+# df_age_top5 = df.sort_values(by = "age", ascending = False).head(5)
+# age 컬럼에서 내림차순으로 정렬 후 상위 5개 추출한 DataFrame을 새로운 변수에 저장
