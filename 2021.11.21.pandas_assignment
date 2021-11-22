@@ -1,6 +1,6 @@
 # df.shape
 # DataFrame의 전체 크기
-
+# 데이터 크기 확인
 
 # df.isnull().sum()
 # 결측치의 합계 출력
