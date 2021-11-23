@@ -1,0 +1,8 @@
+df_corr                                                           # 전체 변수들간의 상관계수를 구함
+
+
+df_corr = df.corr().loc[["age", "fare"], ["age", "fare"]]         # loc를 이용해서 원하는 행과 열을 추출하여 새로운 DataFrame에 지정
+df_corr
+
+
+sns.heatmap(data = df_corr, annot = True)                         # 새로운 DataFrame에서 annot = True 로 상관계수가 표현된 그래프 형성
