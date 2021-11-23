@@ -1,1 +1,148 @@
+#[CASE 3-1]
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+
+print(pd.__version__)                     # pandas 버전 체크
+print(sns.__version__)                    # seaborn 버전 체크
+
+df = sns.load_dataset("mpg")              # seaborn에 "mpg" dataset 로딩 후 df 변수에 지정
+                                          # 오류 발생시, df = pd.read_csv("URL") 로 dataset 불러오기.
+
+
+df.loc[0]                                 # 0번째 행을 출력
+df.loc[[0, 1]]                            # 0~1번째 행을 출력, 2개 이상 출력시 시리즈로 묶어줘야 함.
+df.loc[0:3]                               # 0~3번쨰 행을 출력
+
+df.loc[0, "name"]                         # 0번째 행의 name 컬럼 출력
+df.loc[[0,1,2], ["name", "mpg"]]          # 0~2번째 행의 name, mpg 컬럼 출력, 2개 이상의 행, 컬럼 출력시 시리즈로 묶어줘야 함.
+
+df["name"].value_counts()                 # name 컬럼에 있는 요소들을 카운트해서 출력함.
+df["name"].value_counts().sort_index()    # + 오름차순 정렬
+
+
+
+[CASE 3-2]
+
+  # pandas profiling : 아나콘다 Prompt 실행 후 -> <base> 확인 뒤 -> 'pip install pandas_profiling==2.8.0' 입력해서 설치해야 사용 가능
+  
+from pandas_profiling import ProfileReport
+profile = ProfileReport(df, title="Pandas Profiling Report")      # pandas_profiling 실행
+
+profile.to_file("pandas_profile_report.html")                     # profile을 "pandas_profile_report.html" 이름으로 파일 출력
+
+
+
+  # sweetviz : 아나콘다 Prompt 실행 후 -> <base> 확인 뒤 -> 'pip install sweetviz' 입력해서 설치해야 사용 가능
+
+
+  # 두 가지 모두 데이터 분석 요약 보고서 출력 기능. 하지만 데이터의 크기가 1기가만 되어도 1시간 이상의 시간이 필요.
+  # 샘플링 or 원하는 데이터를 추출한 뒤 보고서 출력하는 방식으로 사용한다면 더 Good.
+
+
+
+[Case 3-3]
+
+import pandas as pd
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt                                   # matplotlib.pyplot import
+
+df.describe()                                                     # 데이터 기술통계 보기
+df.describe(include = "object")                                   # 데이터에서 "object"의 기술통계 보기 (숫자가 아닌 값을 가지는 컬럼)
+
+df["mpg"].unique()                                                # "mpg" 컬럼에서 unique한 값 전체 출력
+
+_ = df.hist()                                                     # 히스토그램 위에 지저분한 출력값을 _에 지정해서 제거
+df.hist(figsize = (가로길이, 세로길이))                             # df의 히스토그램 출력, figsize = (n, n)으로 그래프 크기 지정 가능
+df.hist(figsize = (가로길이, 세로길이), bins = 10)                  # 히스토그램 가로축을 10분위로 구분하여 출력 -> 수치형과 범주형 데이터 구분 가능
+
+
+df.skew()                                                         # df의 왜도값 구하기
+                                                                  # 왜도 > 0  ->  확률밀도함수 오른쪽 긴꼬리  ->  자료 왼쪽 더 많이 분포
+                                                                  # 왜도 < 0  ->  확률밀도함수 왼쪽 긴꼬리  ->  자료 오른쪽 더 많이 분포
+
+
+df.kurt()                                                         # df의 첨도값 구하기
+                                                                  # 관측치들이 어디에 집중되어 있지 여부, 뾰족할수록 더 집중
+                                                                  # 뾰족함    <<    첨도값(K) = 3 기준 정규분포    <<    완만함
+
+
+sns.displot(data = df, x = "mpg")                                 # df 데이터셋을 기반으로 x축은 "mpg" -> seaborn으로 히스토그램을(displot) 나타냄
+sns.displot(data = df, x = "mpg", kde = True)                     # 'kde = True'를 추가해서 '커널밀도추정곡선'을 같이 그림.
+
+sns.kdeplot(data = df, x = "mpg")                                 # kdeplot(확률밀도함수) 출력
+sns.rugplot(data = df, x = "mpg")                                 # rugplot(데이터 x축 어디에 위치하는지 표현하는 함수) 출력
+                                                                      #단일로만 잘 쓰지는 않으며 보조용으로 함께 사용하는 경우가 많음
+                                                                      
+df["mpg"].agg(["skew", "kurt"])                                   # "mpg"컬럼에 대해서 다중집계작업을 하고 싶을 때, agg(["방법1", "방법2"])로 출력함
+
+
+sns.boxplot(data = df, x = "mpg")                                 # df 데이터셋을 기반으로 x축은 "mpg" -> seaborn으로 boxplot 나타냄
+                                                                  # boxplot : Q1, Q2(Median), Q3 로 막대 형성
+                                                                  # 최소값 : Q1 - 1.5 * IQR      최대값 : Q3 + 1.5 * IQR
+                                                                  # IQR : Q3 - Q1
+                                                                  
+sns.violinplot(data = df, x = "mpg")                              # 마찬가지로 violinplot 출력 하는 방법
+
+
+df.std()                                                          # 표준편차는 std()로 구한다.
+
+
+sns.scatterplot(data = df, x = ("mpg"), y = ("origin"))           # scatterplot을 통해서 2가지 수치변수를 x, y 축으로 하여 분포를 출력.
+
+
+sns.regplot(data = df, x = "mpg", y = "horsepower")               # regplot을 통해서 2가지 수치변수의 회귀선을 출력.
+sns.residplot(data=df, x="mpg", y="horsepower")                   # residplot을 통해서 2가지 수치변수의 회귀선에 대한 잔차 출력.
+
+
+
+sns.regplot(data = df, x = "mpg", y = "horsepower")               # regplot과 lmplot은 결과값만 놓고보면 큰 차이가 없음. 하지만 기능적인 차이가 존재함.
+sns.lmplot(data = df, x = "mpg", y = "horsepower")                # 여러가지 기능 추가 가능
+sns.lmplot(data = df, x = "mpg", y = "horsepower", hue = "origin)                                             # hue = "카테고리"  -> 카테고리별로 x,y에 따른 회귀선 출력
+sns.lmplot(data = df, x = "mpg", y = "horsepower", hue = "origin", col = "origin", x_estimator = np.mean)     # col = "카테고리"  -> 카테고리별로 그래프를 분리해서 출력
+                                                                                                              # x_estimator = np.mean  ->  x의 아웃라이어 제거한 신뢰범위 출력
+                                                                                  
+                                                                                  
+                                                                                  
+sns.jointplot(data=df, x="mpg", y="horsepower", kind="kde")       # 그래프 종류 섞어쓰고 싶을때? (잘 이해 안감)
+
+ 
+df_sample = df.sample(100)                                        # pairplot의 경우 오래걸리기 때문에 샘플을 뽑아서 출력하는 걸 추천함 
+sns.pairplot(data = df_sample, hue="origin", corner=True)         # 변수별로 pair하여 다수의 그래프를 출력하며, corner=True를 통해 중복되는 대각선 위의 그래프를 제거함
+
+
+sns.lineplot(data = df, x = "model_year", y = "mpg")              # 신뢰구간을 포함하여 2가지 변수의 선형 그래프를 출력함
+sns.lineplot(data = df, x = "model_year", y = "mpg", ci = None)   # ci = None 을 통해 신뢰구간 음영 부분 삭제 가능
+
+
+sns.relplot(data = df, x = "model_year", y = "mpg", kind = "line", hue = "origin", col = "origin")      # relplot을 써서 범주형 변수와 수치형 변수를 리니어하게 나타낼 수 있음
+
+
+corr = df.corr()                                                                            # 모든 변수간의 상관관계를 구한 DataFrame을 corr 변수로 지정
+mask = np.triu(np.ones_like(corr))                                                          # (잘 이해는 안가지만) 행렬의 대각선 위부분을 1로 지정함
+sns.heatmap(data=corr, annot=True, cmap = "seismic", vmin = -1, vmax = 1, mask = mask)      # heatmap을 통해 상관계수 시각화
+
+
+
+
+[CASE 3-4]
+
+df.nunique()                                                       # 데이터셋 내에 nunique(중복값있는)가 얼마나 있는지 출력
+
+sns.countplot(data = df, x = "origin")                             # 데이터셋 내에서 origin을 기준으로 count한 countplot 출력
+
+df["origin"].value_counts()                                        # 단순 1개 변수 빈도수 출력
+sns.countplot(data = df, x = "origin")                             # 단순 1개 변수 빈도수 시각화 출력
+sns.countplot(data = df, x = "origin", hue = "cylinders")          # 1개 변수에 대해 hue = "cylinders"로 나누어 출력 가능
+
+pd.crosstab(df["origin"], df["cylinders"])                         # pd.crosstab을 통해 2가지 컬럼을 표로 출력.
+
+sns.barplot(data = df, x = "origin", y = "mpg")                    # barplot은 당연히 x축과 y축 변수가 모두 지정되어야 함. ci = None 으로 신뢰구간 제거 가능
+
+df.groupby(by=["origin"])["mpg"].mean()                            # groupby(by = ["컬럼이름"]) 와 함께 ["컬럼이름"]을 추가하여 평균을 출력함 (멀티인덱스)
+
+pd.pivot_table(data = df, index = "origin", values = "mpg")        # index = "컬럼이름" (세로 행) , values = "컬럼이름"(가로 행)
+                                                                   # 기본값이 평균이기 때문에 위의 경우와는 다르게 따로 mean()을 지정하지 않음.
 
