@@ -1,0 +1,47 @@
+df["per_bill"] = df["total_bill"] / df["size"]
+df["per_bill"].describe()
+
+        # df["컬럼"]이 수치형 변수라면 컬럼간의 사칙연산이 가능하다.
+        
+        
+        
+df.groupby(by = ["time", "smoker"])["per_bill"].describe()
+
+        # df.groupby(by = ["1차컬럼", "2차컬럼", "...""])["목표컬럼"].describe()
+        
+        
+        
+df.groupby(by = ["day", "smoker"])["size"].agg(["count","mean"])
+
+        # agg(["count", "mean"])을 통해 count와 mean을 집계함수로 표현
+        
+        
+        
+mpg_drop = mpg.dropna(axis = 0, how = "any")
+mpg_drop.groupby(by = ["origin"])["weight"].mean()
+
+        # mpg.dropna(axis = 0, how = "any") 를 통해 결측치가 있는 행(axis = 0)은 모두 제거하여 mpg_drop라는 변수로 지정
+        # mpg_drop에 대해서 groupby로 weight의 평균값을 구함
+        
+        
+        
+mpg_audi = mpg[mpg["name"].str.contains("audi")]
+mpg_audi["horsepower"].describe()
+
+    # mpg 데이터프레임에서 mpg["name"] 컬럼 내 str.contains("audi")하는 새로운 데이터프레임을 mpg_audi라는 변수로 지정
+    # mpg_audi["horsepower"] 컬럼에 대한 요약값 출력
+    
+   
+   
+mpg_diesel = mpg[mpg["name"].str.contains("diesel")]
+mpg_diesel.groupby(by = ["origin", "model_year"])["horsepower"].mean()
+
+    # mpg 데이터프레임에서 mpg["name"]컬럼에서 str.contains("diesel")인 새로운 데이터프레임을 변수 mpg_diesel로 지정
+    # mpg_diesel에 대해서 groupby를 통해 그룹화하고 horsepower의 평균 출력
+    
+    
+    
+sns.scatterplot(data = mpg, x = "horsepower", y = "weight", hue = "cylinders")
+
+    $ scatterplot을 기본으로 x축은 "horsepower", y축은 "weight", hue를 통해 cylinders에 따라 구분하여 색상 변경하여 출력
+    
