@@ -48,6 +48,22 @@ mpg_diesel.groupby(by = ["origin", "model_year"])["horsepower"].mean()
     # mpg 데이터프레임에서 mpg["name"]컬럼에서 str.contains("diesel")인 새로운 데이터프레임을 변수 mpg_diesel로 지정
     # mpg_diesel에 대해서 groupby를 통해 그룹화하고 horsepower의 평균 출력
     
+        
+#8
+mpg_75 = mpg[mpg["model_year"] < 75]
+pd.pivot_table(data = mpg_75, index = "model_year", columns = "origin", values = "weight")
+
+
+    # 오류사항에서 pivot_table() got an unexpected keyword argument 'value'라고 뜨는건 'value' 스펠링이 잘못되었다는 것.
+
+
+pd.pivot_table(data = mpg_75, index = ["model_year", "origin"], values = "weight").unstack(-1)
+
+    # 멀티 index인 경우 unstack을 통해 index를 컬럼으로 가져올 수 있음.
+    # unstack()은 unstack(-1)이 기본값.   (오른쪽부터 -1)
+
+
+
     
 #9    
 sns.scatterplot(data = mpg, x = "horsepower", y = "weight", hue = "cylinders")
