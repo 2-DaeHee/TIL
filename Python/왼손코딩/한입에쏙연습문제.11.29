@@ -1,0 +1,37 @@
+# 1~10까지 숫자 합 구하기
+
+total = 0
+count = 1
+while count <= 10:
+  total = total + count   
+  count = count + 1
+
+print("총합", total)
+
+
+
+# 숫자 역순으로 출력하기
+
+count = 3
+while count > 0:
+    print(count)
+    count = count - 1
+    
+    
+    
+# 가격입력 창 + 가격 구간별 출력문구 다르게 만들기
+
+price = 0
+while price != -1:
+    price = int(input("가격을 입력하세요 (종료:-1): "))
+    if price > 10000:
+        print("너무 비싸요.")
+    elif price > 5000:
+        print("괜찮은가격이네요")
+    elif price > 0:
+        print("정말 싸요.")
+        
+        
+# 소수 판별하기
+
+
