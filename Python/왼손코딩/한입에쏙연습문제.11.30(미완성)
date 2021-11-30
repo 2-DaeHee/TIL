@@ -1,0 +1,17 @@
+# 소수 판별하기
+
+while True:
+    number = int(input('2 이상의 정수를 입력하세요 (종료:-1): '))
+    if number == -1:
+        break
+    count = 2
+    n_prime = True
+    while count < number:
+        if number % count == 0:
+            n_prime = False
+            break
+        count = count + 1
+    if n_prime:
+        print(numebr, '은(는) 소수입니다.')
+    elif n_prime:
+        print(number, '은(는) 소수가 아닙니다.')
