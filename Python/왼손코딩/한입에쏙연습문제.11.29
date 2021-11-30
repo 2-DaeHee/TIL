@@ -30,8 +30,3 @@ while price != -1:
         print("괜찮은가격이네요")
     elif price > 0:
         print("정말 싸요.")
-        
-        
-# 소수 판별하기
-
-
