@@ -1,0 +1,16 @@
+# 0번
+
+df = sns.load_dataset("diamonds")                                               # diamonds 데이터셋을 df로 변수 지정.
+print(df.shape)
+df.head()
+
+
+# 1번
+
+df["price"].sort_index(ascending = False)                                       # price 컬럼에서 sort_index를 통해서 정렬하고, ascending = False로 내림차순 정렬함
+
+
+# 2번
+
+
+
